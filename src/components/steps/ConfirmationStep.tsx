@@ -1,20 +1,9 @@
 import { useFormContext } from "@/contexts/FormContext";
-import { CheckCircle2, Download } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const ConfirmationStep = () => {
-  const { formData, resetForm } = useFormContext();
-
-  const handleDownload = () => {
-    const data = JSON.stringify(formData, null, 2);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `ahc-form-${formData.owner.lastName}-${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
-  };
+  const { formData, resetForm, needsAuthorisedPerson } = useFormContext();
 
   const SummaryRow = ({ label, value }: { label: string; value: string }) => (
     value ? <div className="flex justify-between py-1.5 border-b border-border/50 text-sm">
@@ -51,7 +40,7 @@ const ConfirmationStep = () => {
         {formData.transport.carrierName && <SummaryRow label="Carrier" value={formData.transport.carrierName} />}
       </div>
 
-      {(formData.transport.transportedBy === "authorised" || formData.transport.transportedBy === "carrier") && (
+      {needsAuthorisedPerson && (
         <div className="summary-section">
           <h3 className="form-section-title">Authorised Person</h3>
           <SummaryRow label="Name" value={`${formData.authorisedPerson.firstName} ${formData.authorisedPerson.lastName}`} />
@@ -97,15 +86,10 @@ const ConfirmationStep = () => {
       <div className="summary-section">
         <h3 className="form-section-title">Declaration</h3>
         <SummaryRow label="Signature" value={formData.declaration.signature} />
-        <SummaryRow label="Print Name" value={formData.declaration.printName} />
         <SummaryRow label="Date" value={formData.declaration.date} />
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 pt-6 pb-10">
-        <button onClick={handleDownload} className="btn-secondary flex items-center justify-center gap-2">
-          <Download className="w-4 h-4" /> Download JSON
-        </button>
-        <button onClick={() => window.print()} className="btn-secondary">Print Summary</button>
+      <div className="flex justify-center pt-6 pb-10">
         <button onClick={resetForm} className="btn-primary">Start New Form</button>
       </div>
     </div>

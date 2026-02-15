@@ -1,0 +1,131 @@
+import { useFormContext } from "@/contexts/FormContext";
+import { Pencil } from "lucide-react";
+
+const ReviewStep = () => {
+  const { formData, setCurrentStep, steps, setIsSubmitted, needsAuthorisedPerson } = useFormContext();
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+    setCurrentStep(steps.length - 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const goToStep = (stepId: string) => {
+    const idx = steps.findIndex(s => s.id === stepId);
+    if (idx >= 0) setCurrentStep(idx);
+  };
+
+  const SummaryRow = ({ label, value }: { label: string; value: string }) => (
+    value ? (
+      <div className="flex justify-between py-1.5 border-b border-border/50 text-sm">
+        <span className="text-muted-foreground">{label}</span>
+        <span className="font-medium text-right max-w-[60%]">{value}</span>
+      </div>
+    ) : null
+  );
+
+  const SectionHeader = ({ title, stepId }: { title: string; stepId: string }) => (
+    <div className="flex justify-between items-center mb-3">
+      <h3 className="form-section-title mb-0">{title}</h3>
+      <button onClick={() => goToStep(stepId)} className="flex items-center gap-1 text-xs text-primary hover:underline">
+        <Pencil className="w-3 h-3" /> Edit
+      </button>
+    </div>
+  );
+
+  return (
+    <div className="animate-fade-in">
+      <h1 className="text-2xl md:text-3xl font-bold mb-2">Review & Submit</h1>
+      <p className="text-sm text-muted-foreground mb-6">Please review your information. Click Edit to make changes.</p>
+
+      <div className="summary-section">
+        <SectionHeader title="Owner Details" stepId="owner" />
+        <SummaryRow label="Name" value={`${formData.owner.firstName} ${formData.owner.lastName}`} />
+        <SummaryRow label="Address" value={`${formData.owner.houseNameNumber} ${formData.owner.street}, ${formData.owner.townCity}, ${formData.owner.postalCode}`} />
+        <SummaryRow label="Country" value={formData.owner.country} />
+        <SummaryRow label="Phone" value={formData.owner.phone} />
+        <SummaryRow label="Email" value={formData.owner.email} />
+      </div>
+
+      <div className="summary-section">
+        <SectionHeader title="Pet Transport" stepId="transport" />
+        <SummaryRow label="Transported By" value={
+          formData.transport.transportedBy === "owner" ? "Owner" :
+          formData.transport.transportedBy === "authorised" ? "Authorised Person" :
+          formData.transport.transportedBy === "carrier" ? "Carrier" : ""
+        } />
+        {formData.transport.carrierName && <SummaryRow label="Carrier Name" value={formData.transport.carrierName} />}
+      </div>
+
+      {needsAuthorisedPerson && (
+        <div className="summary-section">
+          <SectionHeader title="Authorised Person" stepId="authorised" />
+          <SummaryRow label="Name" value={`${formData.authorisedPerson.firstName} ${formData.authorisedPerson.lastName}`} />
+          <SummaryRow label="Address" value={`${formData.authorisedPerson.houseNameNumber} ${formData.authorisedPerson.street}, ${formData.authorisedPerson.townCity}, ${formData.authorisedPerson.postalCode}`} />
+          <SummaryRow label="Phone" value={formData.authorisedPerson.phone} />
+          <SummaryRow label="Email" value={formData.authorisedPerson.email} />
+        </div>
+      )}
+
+      <div className="summary-section">
+        <SectionHeader title="Pet Information" stepId="pet" />
+        <SummaryRow label="Name" value={formData.pet.name} />
+        <SummaryRow label="Species" value={formData.pet.species} />
+        <SummaryRow label="Breed" value={formData.pet.breed} />
+        <SummaryRow label="Date of Birth" value={formData.pet.dateOfBirth} />
+        <SummaryRow label="Colour" value={formData.pet.colour} />
+        <SummaryRow label="Sex" value={formData.pet.sex} />
+        <SummaryRow label="Neutered" value={formData.pet.neutered} />
+        <SummaryRow label="Microchip" value={formData.pet.microchipNumber} />
+        <SummaryRow label="Microchip Date" value={formData.pet.microchipDate} />
+        <SummaryRow label="Routine Vaccines" value={formData.pet.routineVaccines} />
+      </div>
+
+      <div className="summary-section">
+        <SectionHeader title="Travel Information" stepId="travel" />
+        <SummaryRow label="Means of Travel" value={formData.travel.meansOfTravel === "car_ferry" ? "Car / Ferry" : "Air"} />
+        <SummaryRow label="Date of Entry" value={formData.travel.dateOfEntry} />
+        <SummaryRow label="First Country" value={formData.travel.firstCountry} />
+        <SummaryRow label="Final Destination" value={formData.travel.finalCountry} />
+        <SummaryRow label="Tapeworm Required" value={formData.travel.tapewormRequired} />
+        <SummaryRow label="Returning < 5 days" value={formData.travel.returningWithinFiveDays} />
+        <SummaryRow label="Returning < 120 days" value={formData.travel.returningWithin120Days} />
+      </div>
+
+      <div className="summary-section">
+        <SectionHeader title="Rabies Vaccination" stepId="rabies" />
+        <SummaryRow label="Vaccination Date" value={formData.rabies.vaccinationDate} />
+        <SummaryRow label="Vaccine" value={formData.rabies.vaccineName} />
+        <SummaryRow label="Manufacturer" value={formData.rabies.manufacturer} />
+        <SummaryRow label="Batch Number" value={formData.rabies.batchNumber} />
+        <SummaryRow label="Valid From" value={formData.rabies.validFrom} />
+        <SummaryRow label="Valid To" value={formData.rabies.validTo} />
+      </div>
+
+      {formData.uploads.rabiesCertificateName && (
+        <div className="summary-section">
+          <SectionHeader title="Uploaded Documents" stepId="uploads" />
+          <SummaryRow label="Rabies Certificate" value={formData.uploads.rabiesCertificateName} />
+        </div>
+      )}
+
+      <div className="summary-section">
+        <SectionHeader title="Declaration" stepId="declaration" />
+        <SummaryRow label="Agreed" value={formData.declaration.agreed ? "Yes" : "No"} />
+        <SummaryRow label="Signature" value={formData.declaration.signature} />
+        <SummaryRow label="Date" value={formData.declaration.date} />
+      </div>
+
+      <div className="flex gap-4 pt-6 pb-6">
+        <button onClick={() => setCurrentStep(steps.findIndex(s => s.id === "declaration"))} className="btn-secondary">
+          Back to Declaration
+        </button>
+        <button onClick={handleSubmit} className="btn-primary">
+          Submit Form
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default ReviewStep;

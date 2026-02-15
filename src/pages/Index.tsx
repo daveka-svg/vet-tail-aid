@@ -9,6 +9,7 @@ import TravelInfoStep from "@/components/steps/TravelInfoStep";
 import RabiesVaccinationStep from "@/components/steps/RabiesVaccinationStep";
 import UploadDocumentsStep from "@/components/steps/UploadDocumentsStep";
 import DeclarationStep from "@/components/steps/DeclarationStep";
+import ReviewStep from "@/components/steps/ReviewStep";
 import ConfirmationStep from "@/components/steps/ConfirmationStep";
 
 const STEP_COMPONENTS: Record<string, React.FC> = {
@@ -21,13 +22,13 @@ const STEP_COMPONENTS: Record<string, React.FC> = {
   rabies: RabiesVaccinationStep,
   uploads: UploadDocumentsStep,
   declaration: DeclarationStep,
+  review: ReviewStep,
   confirmation: ConfirmationStep,
 };
 
 const FormContent = () => {
   const { steps, currentStep, isSubmitted } = useFormContext();
 
-  // If submitted, always show confirmation
   if (isSubmitted) {
     return <ConfirmationStep />;
   }

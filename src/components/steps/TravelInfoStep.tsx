@@ -1,5 +1,6 @@
 import FormField from "@/components/FormField";
 import FormNavigation from "@/components/FormNavigation";
+import CountryCombobox from "@/components/CountryCombobox";
 import { useFormContext } from "@/contexts/FormContext";
 import { Info } from "lucide-react";
 
@@ -57,8 +58,28 @@ const TravelInfoStep = () => {
         You must obtain an AHC within 10 days before entering the EU if your pet has an up-to-date rabies vaccination or only needs booster doses.
       </div>
 
-      <FormField section="travel" field="firstCountry" label="First Country of Entry into the EU" required placeholder="e.g. France, Ireland" helper="The first country you arrive in when reaching the EU from the UK" />
-      <FormField section="travel" field="finalCountry" label="Final Destination Country" required placeholder="e.g. Spain, Italy" />
+      <div className="mb-5">
+        <label className="form-label">First Country of Entry into the EU (or Northern Ireland) <span className="text-destructive">*</span></label>
+        <CountryCombobox
+          value={t.firstCountry}
+          onChange={(v) => updateField("travel", "firstCountry", v)}
+          placeholder="Search EU country…"
+          error={errors["travel.firstCountry"]}
+        />
+        <p className="form-helper">The first country you arrive in when reaching the EU from the UK</p>
+        {errors["travel.firstCountry"] && <p className="form-error">{errors["travel.firstCountry"]}</p>}
+      </div>
+
+      <div className="mb-5">
+        <label className="form-label">Final Destination Country (EU or Northern Ireland) <span className="text-destructive">*</span></label>
+        <CountryCombobox
+          value={t.finalCountry}
+          onChange={(v) => updateField("travel", "finalCountry", v)}
+          placeholder="Search EU country…"
+          error={errors["travel.finalCountry"]}
+        />
+        {errors["travel.finalCountry"] && <p className="form-error">{errors["travel.finalCountry"]}</p>}
+      </div>
 
       <div className="mb-5">
         <label className="form-label">Entering via Northern Ireland, Republic of Ireland, Finland, Malta or Norway? (tapeworm treatment needed) <span className="text-destructive">*</span></label>
