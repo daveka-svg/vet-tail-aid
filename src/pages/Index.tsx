@@ -32,9 +32,7 @@ const STEP_COMPONENTS: Record<string, React.FC> = {
 const FormContent = () => {
   const { steps, currentStep, isSubmitted } = useFormContext();
 
-  if (isSubmitted) {
-    return <ConfirmationStep />;
-  }
+  if (isSubmitted) return <ConfirmationStep />;
 
   const currentStepConfig = steps[currentStep];
   if (!currentStepConfig) return null;
@@ -48,23 +46,31 @@ const FormContent = () => {
 const Index = () => {
   return (
     <FormProvider>
-      <div className="min-h-screen bg-background flex flex-col relative overflow-x-hidden">
+      <div className="min-h-screen bg-background flex flex-col relative">
         <FormStepper />
 
-        {/* Decorative illustrations — dogs bottom-left, cat bottom-right */}
-        <div className="hidden xl:block fixed bottom-0 left-0 pointer-events-none select-none z-0" style={{ width: '280px' }}>
-          <img src={dogDalmatian} alt="" className="w-48 absolute bottom-6 left-10 opacity-90" />
-          <img src={dogBandana} alt="" className="w-24 absolute bottom-36 left-0 opacity-60" />
-        </div>
-        <div className="hidden xl:block fixed bottom-4 right-6 pointer-events-none select-none z-0">
-          <img src={catRunning} alt="" className="w-24 opacity-60" />
-        </div>
-
         <main className="flex-1 flex justify-center relative z-10">
-          <div className="w-full max-w-xl px-5 md:px-8 py-6 md:py-10">
+          <div className="w-full max-w-xl px-6 md:px-8 py-8 md:py-12">
             <FormContent />
           </div>
         </main>
+
+        {/* Decorative illustrations — only on wide screens, won't overlap content */}
+        <img
+          src={dogDalmatian}
+          alt=""
+          className="hidden 2xl:block fixed bottom-6 left-12 w-48 pointer-events-none select-none z-0 opacity-80"
+        />
+        <img
+          src={dogBandana}
+          alt=""
+          className="hidden 2xl:block fixed bottom-36 left-2 w-24 pointer-events-none select-none z-0 opacity-50"
+        />
+        <img
+          src={catRunning}
+          alt=""
+          className="hidden 2xl:block fixed bottom-6 right-10 w-20 pointer-events-none select-none z-0 opacity-50"
+        />
       </div>
     </FormProvider>
   );
