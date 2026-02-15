@@ -25,9 +25,6 @@ const IntroStep = () => {
         </div>
       </div>
 
-      <div className="reminder-box mb-8">
-        <p className="text-sm">The appointment lasts <strong>1 hour</strong>. A <strong>£125 non-refundable deposit</strong> is required before booking.</p>
-      </div>
 
       <FormNavigation nextLabel="Start Form →" hideBack />
     </div>

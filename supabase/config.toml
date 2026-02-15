@@ -1,1 +1,4 @@
 project_id = "mwiadwyxzggoqnwqtkck"
+
+[functions.intake-api]
+verify_jwt = false
