@@ -1,5 +1,4 @@
 import { useFormContext } from "@/contexts/FormContext";
-import { ArrowRight } from "lucide-react";
 
 interface Props {
   onNext?: () => boolean;
@@ -30,15 +29,21 @@ const FormNavigation = ({ onNext, nextLabel, hideBack, hideNext }: Props) => {
   };
 
   return (
-    <div className="flex items-center justify-end pt-10 pb-6 gap-4">
+    <div className="flex items-center justify-end pt-8 pb-4 gap-3">
       {!hideBack && currentStep > 0 && (
-        <button onClick={handleBack} className="btn-secondary">
+        <button
+          onClick={handleBack}
+          className="px-6 py-2 border border-gray-400 rounded text-sm text-black hover:bg-gray-100"
+        >
           Back
         </button>
       )}
       {!hideNext && (
-        <button onClick={handleNext} className="btn-primary flex items-center gap-2">
-          {nextLabel || "Continue"} {!nextLabel && <ArrowRight className="w-4 h-4" />}
+        <button
+          onClick={handleNext}
+          className="px-6 py-2 bg-black text-white rounded text-sm hover:bg-gray-800"
+        >
+          {nextLabel || "Continue →"}
         </button>
       )}
     </div>
