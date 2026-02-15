@@ -52,7 +52,7 @@ const PetTransportStep = () => {
       )}
 
       {(tb === "authorised" || tb === "carrier") && (
-        <div className="reminder-box flex gap-3 items-start">
+        <div className="reminder-box flex gap-3 items-start mb-8">
           <AlertTriangle className="w-5 h-5 text-foreground flex-shrink-0 mt-0.5" />
           <p className="text-sm">
             A letter of authorisation must be brought to the appointment. 

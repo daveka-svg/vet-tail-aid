@@ -70,7 +70,7 @@ const ReviewStep = () => {
         <SectionHeader title="Pet Information" stepId="pet" />
         <SummaryRow label="Name" value={formData.pet.name} />
         <SummaryRow label="Species" value={formData.pet.species} />
-        <SummaryRow label="Breed" value={formData.pet.breed} />
+        <SummaryRow label="Breed" value={formData.pet.breed === "Other" ? formData.pet.breedOther || "Other" : formData.pet.breed} />
         <SummaryRow label="Date of Birth" value={formData.pet.dateOfBirth} />
         <SummaryRow label="Colour" value={formData.pet.colour} />
         <SummaryRow label="Sex" value={formData.pet.sex} />
@@ -88,7 +88,9 @@ const ReviewStep = () => {
         <SummaryRow label="Final Destination" value={formData.travel.finalCountry} />
         <SummaryRow label="Tapeworm Required" value={formData.travel.tapewormRequired} />
         <SummaryRow label="Returning < 5 days" value={formData.travel.returningWithinFiveDays} />
-        <SummaryRow label="Returning < 120 days" value={formData.travel.returningWithin120Days} />
+        {formData.travel.returningWithinFiveDays === "no" && (
+          <SummaryRow label="Returning < 120 days" value={formData.travel.returningWithin120Days} />
+        )}
       </div>
 
       <div className="summary-section">
@@ -115,7 +117,7 @@ const ReviewStep = () => {
         <SummaryRow label="Date" value={formData.declaration.date} />
       </div>
 
-      <div className="flex items-center justify-between pt-8 pb-4">
+      <div className="flex items-center justify-between pt-10 pb-6">
         <button onClick={() => setCurrentStep(steps.findIndex(s => s.id === "declaration"))} className="btn-secondary">
           ← Back
         </button>

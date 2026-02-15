@@ -11,7 +11,6 @@ const TravelInfoStep = () => {
   const { formData, updateField, errors, setErrors } = useFormContext();
   const t = formData.travel;
 
-  // Auto-determine tapeworm requirement from first country
   useEffect(() => {
     if (t.firstCountry) {
       const required = TAPEWORM_COUNTRIES.includes(t.firstCountry) ? "yes" : "no";
@@ -21,6 +20,13 @@ const TravelInfoStep = () => {
     }
   }, [t.firstCountry]);
 
+  // Clear 120-day answer when 5-day is yes
+  useEffect(() => {
+    if (t.returningWithinFiveDays === "yes" && t.returningWithin120Days) {
+      updateField("travel", "returningWithin120Days", "");
+    }
+  }, [t.returningWithinFiveDays]);
+
   const validate = (): boolean => {
     const e: Record<string, string> = {};
     if (!t.meansOfTravel) e["travel.meansOfTravel"] = "Please select";
@@ -28,7 +34,7 @@ const TravelInfoStep = () => {
     if (!t.firstCountry.trim()) e["travel.firstCountry"] = "Required";
     if (!t.finalCountry.trim()) e["travel.finalCountry"] = "Required";
     if (!t.returningWithinFiveDays) e["travel.returningWithinFiveDays"] = "Please select";
-    if (!t.returningWithin120Days) e["travel.returningWithin120Days"] = "Please select";
+    if (t.returningWithinFiveDays === "no" && !t.returningWithin120Days) e["travel.returningWithin120Days"] = "Please select";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -64,10 +70,6 @@ const TravelInfoStep = () => {
 
       <FormField section="travel" field="dateOfEntry" label="Date of Entry to the EU" required type="date" />
 
-      <div className="reminder-box mb-6 text-xs">
-        You must obtain an AHC within 10 days before entering the EU if your pet has an up-to-date rabies vaccination or only needs booster doses.
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <div className="mb-4">
           <label className="form-label">First Country of Entry <span className="text-destructive">*</span></label>
@@ -77,7 +79,6 @@ const TravelInfoStep = () => {
             placeholder="Search EU country…"
             error={errors["travel.firstCountry"]}
           />
-          <p className="form-helper">The first EU country you arrive in from the UK</p>
           {errors["travel.firstCountry"] && <p className="form-error">{errors["travel.firstCountry"]}</p>}
         </div>
 
@@ -93,7 +94,6 @@ const TravelInfoStep = () => {
         </div>
       </div>
 
-      {/* Tapeworm auto-determined info */}
       {t.firstCountry && TAPEWORM_COUNTRIES.includes(t.firstCountry) && (
         <div className="reminder-box flex gap-3 items-start mb-6">
           <Info className="w-5 h-5 text-foreground flex-shrink-0 mt-0.5" />
@@ -101,21 +101,22 @@ const TravelInfoStep = () => {
         </div>
       )}
 
-      {/* Return questions grouped */}
       <div className="border border-border rounded-md p-5 mb-4">
         <p className="text-sm font-medium text-foreground mb-4">Return Travel</p>
 
-        <div className="mb-4">
+        <div className={t.returningWithinFiveDays === "no" ? "mb-4" : ""}>
           <label className="form-label">Returning with the pet(s) from the EU within 5 days? <span className="text-destructive">*</span></label>
           <RadioGroup field="returningWithinFiveDays" options={[{ value: "yes", label: "Yes" }, { value: "no", label: "No" }]} />
           {errors["travel.returningWithinFiveDays"] && <p className="form-error">{errors["travel.returningWithinFiveDays"]}</p>}
         </div>
 
-        <div>
-          <label className="form-label">Will the pet(s) be returning to the UK within 120 days? <span className="text-destructive">*</span></label>
-          <RadioGroup field="returningWithin120Days" options={[{ value: "yes", label: "Yes" }, { value: "no", label: "No" }]} />
-          {errors["travel.returningWithin120Days"] && <p className="form-error">{errors["travel.returningWithin120Days"]}</p>}
-        </div>
+        {t.returningWithinFiveDays === "no" && (
+          <div>
+            <label className="form-label">Will the pet(s) be returning to the UK within 120 days? <span className="text-destructive">*</span></label>
+            <RadioGroup field="returningWithin120Days" options={[{ value: "yes", label: "Yes" }, { value: "no", label: "No" }]} />
+            {errors["travel.returningWithin120Days"] && <p className="form-error">{errors["travel.returningWithin120Days"]}</p>}
+          </div>
+        )}
       </div>
 
       <FormNavigation onNext={validate} />

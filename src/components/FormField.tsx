@@ -13,7 +13,7 @@ interface Props {
   children?: React.ReactNode;
 }
 
-const FormField = ({ section, field, label, helper, placeholder, type = "text", required, maxLength, children }: Props) => {
+const FormField = ({ section, field, label, placeholder, type = "text", required, maxLength, children }: Props) => {
   const { formData, updateField, errors } = useFormContext();
   const value = (formData[section] as any)[field] || "";
   const errorKey = `${section}.${field}`;
@@ -24,7 +24,6 @@ const FormField = ({ section, field, label, helper, placeholder, type = "text", 
       <div className="mb-4">
         <label className="form-label">{label}{required && <span className="text-destructive ml-0.5">*</span>}</label>
         {children}
-        {helper && <p className="form-helper">{helper}</p>}
         {error && <p className="form-error">{error}</p>}
       </div>
     );
@@ -42,7 +41,6 @@ const FormField = ({ section, field, label, helper, placeholder, type = "text", 
         className="form-input"
         autoComplete={field === "email" ? "email" : field === "phone" ? "tel" : undefined}
       />
-      {helper && <p className="form-helper">{helper}</p>}
       {error && <p className="form-error">{error}</p>}
     </div>
   );
