@@ -30,6 +30,7 @@ export interface FormData {
     name: string;
     species: string;
     breed: string;
+    breedOther: string;
     dateOfBirth: string;
     colour: string;
     sex: string;
@@ -70,7 +71,7 @@ const defaultFormData: FormData = {
   owner: { firstName: "", lastName: "", houseNameNumber: "", street: "", townCity: "", postalCode: "", country: "United Kingdom", phone: "", email: "" },
   transport: { transportedBy: "", carrierName: "" },
   authorisedPerson: { firstName: "", lastName: "", houseNameNumber: "", street: "", townCity: "", postalCode: "", phone: "", email: "" },
-  pet: { name: "", species: "", breed: "", dateOfBirth: "", colour: "", sex: "", neutered: "", microchipNumber: "", microchipDate: "", routineVaccines: "" },
+  pet: { name: "", species: "", breed: "", breedOther: "", dateOfBirth: "", colour: "", sex: "", neutered: "", microchipNumber: "", microchipDate: "", routineVaccines: "" },
   travel: { meansOfTravel: "", dateOfEntry: "", firstCountry: "", finalCountry: "", tapewormRequired: "", returningWithinFiveDays: "", returningWithin120Days: "" },
   rabies: { vaccinationDate: "", vaccineName: "", manufacturer: "", batchNumber: "", validFrom: "", validTo: "" },
   uploads: { rabiesCertificate: null, rabiesCertificateName: "" },

@@ -17,6 +17,7 @@ const PetInfoStep = () => {
     if (!p.name.trim()) e["pet.name"] = "Pet name is required";
     if (!p.species) e["pet.species"] = "Species is required";
     if (!p.breed.trim()) e["pet.breed"] = "Breed is required";
+    if (p.breed === "Other" && !(p as any).breedOther?.trim()) e["pet.breedOther"] = "Please specify breed";
     if (!p.dateOfBirth.trim()) e["pet.dateOfBirth"] = "Date of birth is required";
     if (!p.colour.trim()) e["pet.colour"] = "Colour is required";
     if (!p.sex) e["pet.sex"] = "Sex is required";
@@ -54,7 +55,8 @@ const PetInfoStep = () => {
             value={p.species}
             onChange={(v) => {
               updateField("pet", "species", v);
-              updateField("pet", "breed", ""); // Reset breed when species changes
+              updateField("pet", "breed", "");
+              updateField("pet", "breedOther", "");
             }}
             options={SPECIES_OPTIONS}
             placeholder="Select species…"
@@ -66,7 +68,10 @@ const PetInfoStep = () => {
           <label className="form-label">Breed <span className="text-destructive">*</span></label>
           <SearchableSelect
             value={p.breed}
-            onChange={(v) => updateField("pet", "breed", v)}
+            onChange={(v) => {
+              updateField("pet", "breed", v);
+              if (v !== "Other") updateField("pet", "breedOther", "");
+            }}
             options={breedOptions}
             placeholder={p.species ? "Search breed…" : "Select species first"}
             disabled={!p.species}
@@ -75,6 +80,20 @@ const PetInfoStep = () => {
           {errors["pet.breed"] && <p className="form-error">{errors["pet.breed"]}</p>}
         </div>
       </div>
+
+      {p.breed === "Other" && (
+        <div className="mb-4">
+          <label className="form-label">Please specify breed <span className="text-destructive">*</span></label>
+          <input
+            type="text"
+            value={(p as any).breedOther || ""}
+            onChange={(e) => updateField("pet", "breedOther", e.target.value)}
+            placeholder="Enter breed name"
+            className="form-input"
+          />
+          {errors["pet.breedOther"] && <p className="form-error">{errors["pet.breedOther"]}</p>}
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <FormField section="pet" field="dateOfBirth" label="Date of Birth" required type="date" />
@@ -95,7 +114,7 @@ const PetInfoStep = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-        <FormField section="pet" field="microchipNumber" label="Microchip Number" required placeholder="15-digit number" maxLength={15} helper="Must be exactly 15 digits" />
+        <FormField section="pet" field="microchipNumber" label="Microchip Number" required placeholder="15-digit number" maxLength={15} />
         <FormField section="pet" field="microchipDate" label="Date of Implantation" required type="date" />
       </div>
 

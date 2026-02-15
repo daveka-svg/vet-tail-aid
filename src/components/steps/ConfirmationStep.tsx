@@ -1,9 +1,8 @@
 import { useFormContext } from "@/contexts/FormContext";
 import { CheckCircle2 } from "lucide-react";
-import logo from "@/assets/logo.png";
 
 const ConfirmationStep = () => {
-  const { formData, resetForm, needsAuthorisedPerson } = useFormContext();
+  const { formData, needsAuthorisedPerson } = useFormContext();
 
   const SummaryRow = ({ label, value }: { label: string; value: string }) => (
     value ? <div className="flex justify-between py-1.5 border-b border-border/50 text-sm last:border-b-0">
@@ -14,10 +13,6 @@ const ConfirmationStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <div className="flex justify-center mb-6">
-        <img src={logo} alt="Every Tail Vets" className="h-10 object-contain" />
-      </div>
-
       <div className="text-center mb-8">
         <div className="inline-flex p-3 rounded-full bg-secondary mb-4">
           <CheckCircle2 className="w-10 h-10 text-foreground" />
@@ -30,6 +25,7 @@ const ConfirmationStep = () => {
         <h3 className="text-sm font-semibold text-foreground mb-3">Owner Details</h3>
         <SummaryRow label="Name" value={`${formData.owner.firstName} ${formData.owner.lastName}`} />
         <SummaryRow label="Address" value={`${formData.owner.houseNameNumber} ${formData.owner.street}, ${formData.owner.townCity}, ${formData.owner.postalCode}`} />
+        <SummaryRow label="Country" value={formData.owner.country} />
         <SummaryRow label="Phone" value={formData.owner.phone} />
         <SummaryRow label="Email" value={formData.owner.email} />
       </div>
@@ -53,7 +49,7 @@ const ConfirmationStep = () => {
         <h3 className="text-sm font-semibold text-foreground mb-3">Pet Information</h3>
         <SummaryRow label="Name" value={formData.pet.name} />
         <SummaryRow label="Species" value={formData.pet.species} />
-        <SummaryRow label="Breed" value={formData.pet.breed} />
+        <SummaryRow label="Breed" value={formData.pet.breed === "Other" ? (formData.pet as any).breedOther || "Other" : formData.pet.breed} />
         <SummaryRow label="DOB" value={formData.pet.dateOfBirth} />
         <SummaryRow label="Colour" value={formData.pet.colour} />
         <SummaryRow label="Sex" value={formData.pet.sex} />
@@ -70,7 +66,9 @@ const ConfirmationStep = () => {
         <SummaryRow label="Final Destination" value={formData.travel.finalCountry} />
         <SummaryRow label="Tapeworm Treatment" value={formData.travel.tapewormRequired} />
         <SummaryRow label="Returning <5 days" value={formData.travel.returningWithinFiveDays} />
-        <SummaryRow label="Returning <120 days" value={formData.travel.returningWithin120Days} />
+        {formData.travel.returningWithinFiveDays === "no" && (
+          <SummaryRow label="Returning <120 days" value={formData.travel.returningWithin120Days} />
+        )}
       </div>
 
       <div className="summary-section">
@@ -87,10 +85,6 @@ const ConfirmationStep = () => {
         <h3 className="text-sm font-semibold text-foreground mb-3">Declaration</h3>
         <SummaryRow label="Signature" value={formData.declaration.signature} />
         <SummaryRow label="Date" value={formData.declaration.date} />
-      </div>
-
-      <div className="flex justify-center pt-6 pb-10">
-        <button onClick={resetForm} className="btn-primary">Start New Form</button>
       </div>
     </div>
   );

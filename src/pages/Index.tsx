@@ -42,7 +42,7 @@ const Index = () => {
       <div className="min-h-screen bg-background flex flex-col">
         <FormStepper />
         <main className="flex-1 flex justify-center">
-          <div className="w-full max-w-2xl px-6 py-8 pb-24 md:pb-8">
+          <div className="w-full max-w-2xl px-6 py-8">
             <FormContent />
           </div>
         </main>
