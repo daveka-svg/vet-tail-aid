@@ -11,6 +11,8 @@ import UploadDocumentsStep from "@/components/steps/UploadDocumentsStep";
 import DeclarationStep from "@/components/steps/DeclarationStep";
 import ReviewStep from "@/components/steps/ReviewStep";
 import ConfirmationStep from "@/components/steps/ConfirmationStep";
+import dogBandana from "@/assets/dog-bandana.png";
+import dogDalmatian from "@/assets/dog-dalmatian.png";
 
 const STEP_COMPONENTS: Record<string, React.FC> = {
   intro: IntroStep,
@@ -45,9 +47,16 @@ const FormContent = () => {
 const Index = () => {
   return (
     <FormProvider>
-      <div className="min-h-screen bg-background flex flex-col lg:flex-row">
+      <div className="min-h-screen bg-background flex flex-col relative overflow-x-hidden">
         <FormStepper />
-        <main className="flex-1 flex justify-center">
+        
+        {/* Dog illustrations - decorative, bottom-left */}
+        <div className="hidden lg:block fixed left-0 bottom-0 pointer-events-none select-none z-0">
+          <img src={dogDalmatian} alt="" className="w-44 xl:w-56 absolute bottom-4 left-8" />
+          <img src={dogBandana} alt="" className="w-24 xl:w-32 absolute bottom-28 left-2" />
+        </div>
+
+        <main className="flex-1 flex justify-center relative z-10">
           <div className="w-full max-w-2xl px-5 md:px-10 py-8 md:py-12">
             <FormContent />
           </div>

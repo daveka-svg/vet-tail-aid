@@ -1,64 +1,55 @@
 import { useFormContext } from "@/contexts/FormContext";
-import { Check } from "lucide-react";
+import logo from "@/assets/logo.png";
+import yarnBall from "@/assets/yarn-ball.svg";
+import catPlaying from "@/assets/cat-playing.svg";
 
 const FormStepper = () => {
-  const { steps, currentStep, setCurrentStep } = useFormContext();
+  const { steps, currentStep } = useFormContext();
+
+  // Calculate progress: how far through the steps we are
+  const progress = steps.length > 1 ? currentStep / (steps.length - 1) : 0;
 
   return (
-    <>
-      {/* Desktop sidebar stepper */}
-      <aside className="hidden lg:flex flex-col w-72 min-h-screen bg-card border-r border-border p-8 pt-10 sticky top-0">
-        <div className="mb-10">
-          <h2 className="text-xl font-bold">AHC Form</h2>
-          <p className="text-xs text-muted-foreground mt-1">Pre-Appointment Intake</p>
-        </div>
-        <nav className="flex-1">
-          <ol className="space-y-1">
-            {steps.map((step, idx) => {
-              const isActive = idx === currentStep;
-              const isComplete = idx < currentStep;
-              return (
-                <li key={step.id}>
-                  <button
-                    onClick={() => idx < currentStep && setCurrentStep(idx)}
-                    className={`flex items-center gap-3 w-full py-2.5 px-3 rounded-lg text-left text-sm transition-all ${
-                      isActive ? "bg-secondary font-semibold" : isComplete ? "cursor-pointer hover:bg-secondary/50" : "opacity-50 cursor-default"
-                    }`}
-                    disabled={idx > currentStep}
-                  >
-                    <span className={`step-circle ${isActive ? "step-circle-active" : isComplete ? "step-circle-complete" : "step-circle-inactive"}`}>
-                      {isComplete ? <Check className="w-3.5 h-3.5" /> : idx + 1}
-                    </span>
-                    <span className="truncate">{step.shortTitle}</span>
-                  </button>
-                </li>
-              );
-            })}
-          </ol>
-        </nav>
-      </aside>
+    <header className="w-full bg-background pt-6 pb-4 px-6 md:px-10">
+      {/* Top row: logo + title + cat illustration */}
+      <div className="flex items-start justify-between mb-4">
+        <img src={logo} alt="Every Tail Vets" className="h-8 md:h-10 object-contain" />
+        <h1 className="text-2xl md:text-4xl text-center flex-1 px-4" style={{ fontFamily: "'That That New', Georgia, serif" }}>
+          AHC Pre-Appointment Form
+        </h1>
+        <img src={catPlaying} alt="" className="h-16 md:h-24 object-contain hidden md:block" />
+      </div>
 
-      {/* Mobile top progress */}
-      <div className="lg:hidden sticky top-0 z-30 bg-card border-b border-border px-4 py-3">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-semibold text-muted-foreground">
-            Step {currentStep + 1} of {steps.length}
-          </span>
-          <span className="text-xs font-semibold">{steps[currentStep]?.title}</span>
-        </div>
-        <div className="flex gap-1">
-          {steps.map((_, idx) => (
-            <div
-              key={idx}
-              className={`h-1.5 flex-1 rounded-full transition-all ${
-                idx < currentStep ? "bg-primary" : idx === currentStep ? "bg-primary" : "bg-muted"
-              }`}
-              style={{ opacity: idx === currentStep ? 0.7 : idx < currentStep ? 1 : 0.3 }}
-            />
-          ))}
+      {/* Progress bar with yarn ball */}
+      <div className="relative mx-auto max-w-3xl">
+        {/* Track line */}
+        <div className="h-[2px] w-full rounded-full" style={{ backgroundColor: 'hsl(var(--border))' }} />
+        
+        {/* Filled portion */}
+        <div
+          className="absolute top-0 left-0 h-[2px] rounded-full transition-all duration-500 ease-out"
+          style={{
+            width: `${progress * 100}%`,
+            backgroundColor: 'hsl(var(--primary))',
+          }}
+        />
+
+        {/* Yarn ball indicator */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 transition-all duration-500 ease-out"
+          style={{ left: `${progress * 100}%`, transform: `translate(-50%, -50%)` }}
+        >
+          <img src={yarnBall} alt="" className="w-8 h-8 md:w-10 md:h-10" />
         </div>
       </div>
-    </>
+
+      {/* Step label */}
+      <div className="text-center mt-3">
+        <span className="text-xs text-muted-foreground" style={{ fontFamily: "'Sometype Mono', monospace" }}>
+          Step {currentStep + 1} of {steps.length} — {steps[currentStep]?.title}
+        </span>
+      </div>
+    </header>
   );
 };
 
