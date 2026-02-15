@@ -2,43 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "That That New";
+  src: url("/fonts/ThatThatNew-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    --foreground: 0 0% 10%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card-foreground: 0 0% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 0 0% 0%;
+    --popover-foreground: 0 0% 10%;
+    --primary: 0 0% 15%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 0%;
+    --secondary-foreground: 0 0% 10%;
     --muted: 0 0% 96%;
     --muted-foreground: 0 0% 45%;
     --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
+    --accent-foreground: 0 0% 10%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 80%;
-    --input: 0 0% 80%;
-    --ring: 0 0% 0%;
-    --radius: 0.375rem;
+    --border: 0 0% 85%;
+    --input: 0 0% 85%;
+    --ring: 0 0% 30%;
+    --radius: 0.5rem;
 
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 0 0% 0%;
-    --sidebar-primary: 0 0% 0%;
+    --sidebar-foreground: 0 0% 10%;
+    --sidebar-primary: 0 0% 15%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 0 0% 96%;
-    --sidebar-accent-foreground: 0 0% 0%;
-    --sidebar-border: 0 0% 80%;
-    --sidebar-ring: 0 0% 0%;
+    --sidebar-accent-foreground: 0 0% 10%;
+    --sidebar-border: 0 0% 85%;
+    --sidebar-ring: 0 0% 30%;
 
     --success: 142 71% 35%;
     --success-foreground: 0 0% 100%;
-    --step-inactive: 0 0% 80%;
-    --step-active: 0 0% 0%;
-    --step-complete: 0 0% 30%;
   }
 }
 
@@ -48,17 +52,21 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer components {
-  .form-section-title {
-    @apply text-lg font-semibold text-foreground mb-4;
+  .section-title {
+    font-family: "That That New", serif;
+    @apply text-2xl md:text-3xl font-normal text-foreground mb-6;
+    line-height: 1.15;
   }
+
   .form-label {
-    @apply text-sm font-medium text-foreground mb-1 block;
+    @apply text-sm font-medium text-foreground mb-1.5 block;
   }
   .form-helper {
     @apply text-xs text-muted-foreground mt-1;
@@ -67,18 +75,27 @@
     @apply text-xs text-destructive mt-1;
   }
   .form-input {
-    @apply w-full px-3 py-2 rounded border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all text-sm;
+    @apply w-full px-3 py-2.5 rounded-md border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/40 focus:border-foreground/30 transition-all text-sm;
   }
   .btn-primary {
-    @apply bg-primary text-primary-foreground px-6 py-2 rounded text-sm hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply bg-primary text-primary-foreground px-8 py-2.5 rounded-md text-sm font-medium tracking-wide hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition-opacity;
   }
   .btn-secondary {
-    @apply border border-border text-foreground px-6 py-2 rounded text-sm hover:bg-secondary;
+    @apply border border-border text-foreground px-6 py-2.5 rounded-md text-sm font-medium hover:bg-secondary transition-colors;
   }
   .reminder-box {
-    @apply border border-border rounded p-4 text-sm text-foreground;
+    @apply border border-border rounded-md p-4 text-sm text-foreground bg-secondary/50;
   }
   .summary-section {
-    @apply border border-border rounded p-4 mb-4;
+    @apply border border-border rounded-md p-5 mb-4;
+  }
+  .radio-option {
+    @apply flex items-center gap-2.5 px-4 py-2.5 rounded-md border cursor-pointer transition-all text-sm;
+  }
+  .radio-option-active {
+    @apply border-foreground/40 bg-secondary;
+  }
+  .radio-option-inactive {
+    @apply border-border bg-background hover:border-foreground/20;
   }
 }

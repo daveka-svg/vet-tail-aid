@@ -20,13 +20,13 @@ const UploadDocumentsStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-8">Upload Documents</h1>
+      <h1 className="section-title">Upload Documents</h1>
 
       <div className="mb-6">
-        <label className="form-label">Rabies Vaccination Certificate Copy</label>
+        <label className="form-label mb-2">Rabies Vaccination Certificate Copy</label>
         <div
           onClick={() => fileRef.current?.click()}
-          className="border-2 border-dashed border-border rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-all bg-card"
+          className="border-2 border-dashed border-border rounded-md p-8 text-center cursor-pointer hover:border-foreground/30 transition-all bg-secondary/30"
         >
           <Upload className="w-8 h-8 mx-auto mb-3 text-muted-foreground" />
           {formData.uploads.rabiesCertificateName ? (
@@ -42,11 +42,8 @@ const UploadDocumentsStep = () => {
       </div>
 
       <div className="reminder-box flex gap-3 items-start">
-        <AlertTriangle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-        <div>
-          <p className="text-sm font-semibold mb-1">Important</p>
-          <p className="text-sm">Original documents must be brought to the appointment. Without these, we cannot issue the AHC.</p>
-        </div>
+        <AlertTriangle className="w-5 h-5 text-foreground flex-shrink-0 mt-0.5" />
+        <p className="text-sm">Original documents must be brought to the appointment. Without these, we cannot issue the AHC.</p>
       </div>
 
       <FormNavigation />

@@ -17,7 +17,7 @@ const ReviewStep = () => {
 
   const SummaryRow = ({ label, value }: { label: string; value: string }) => (
     value ? (
-      <div className="flex justify-between py-1.5 border-b border-border/50 text-sm">
+      <div className="flex justify-between py-1.5 border-b border-border/50 text-sm last:border-b-0">
         <span className="text-muted-foreground">{label}</span>
         <span className="font-medium text-right max-w-[60%]">{value}</span>
       </div>
@@ -26,8 +26,8 @@ const ReviewStep = () => {
 
   const SectionHeader = ({ title, stepId }: { title: string; stepId: string }) => (
     <div className="flex justify-between items-center mb-3">
-      <h3 className="form-section-title mb-0">{title}</h3>
-      <button onClick={() => goToStep(stepId)} className="flex items-center gap-1 text-xs text-primary hover:underline">
+      <h3 className="text-sm font-semibold text-foreground">{title}</h3>
+      <button onClick={() => goToStep(stepId)} className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors">
         <Pencil className="w-3 h-3" /> Edit
       </button>
     </div>
@@ -35,8 +35,7 @@ const ReviewStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-2">Review & Submit</h1>
-      <p className="text-sm text-muted-foreground mb-6">Please review your information. Click Edit to make changes.</p>
+      <h1 className="section-title">Review & Submit</h1>
 
       <div className="summary-section">
         <SectionHeader title="Owner Details" stepId="owner" />
@@ -116,9 +115,9 @@ const ReviewStep = () => {
         <SummaryRow label="Date" value={formData.declaration.date} />
       </div>
 
-      <div className="flex gap-4 pt-6 pb-6">
+      <div className="flex items-center justify-between pt-8 pb-4">
         <button onClick={() => setCurrentStep(steps.findIndex(s => s.id === "declaration"))} className="btn-secondary">
-          Back to Declaration
+          ← Back
         </button>
         <button onClick={handleSubmit} className="btn-primary">
           Submit Form

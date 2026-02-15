@@ -23,33 +23,19 @@ const AuthorisedPersonStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-8">Authorised Person</h1>
-      <p className="text-sm text-muted-foreground mb-6">Details of the person who will be travelling with the pet.</p>
+      <h1 className="section-title">Authorised Person</h1>
 
-      <div className="mb-8">
-        <h2 className="form-section-title">
-          <span className="text-muted-foreground mr-2">01</span>Full Name
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <FormField section="authorisedPerson" field="firstName" label="First Name" required placeholder="First name" />
-          <FormField section="authorisedPerson" field="lastName" label="Last Name" required placeholder="Last name" />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <FormField section="authorisedPerson" field="firstName" label="First Name" required placeholder="First name" />
+        <FormField section="authorisedPerson" field="lastName" label="Last Name" required placeholder="Last name" />
       </div>
 
-      <div className="mb-8">
-        <h2 className="form-section-title">
-          <span className="text-muted-foreground mr-2">02</span>Address
-        </h2>
-        <FormField section="authorisedPerson" field="postalCode" label="Postcode" required placeholder="Postcode" />
-        <FormField section="authorisedPerson" field="houseNameNumber" label="House Name / Number" required placeholder="House name or number" />
-        <FormField section="authorisedPerson" field="street" label="Street" required placeholder="Street" />
-        <FormField section="authorisedPerson" field="townCity" label="Town / City" required placeholder="Town or city" />
-      </div>
+      <FormField section="authorisedPerson" field="postalCode" label="Postcode" required placeholder="Postcode" />
+      <FormField section="authorisedPerson" field="houseNameNumber" label="House Name / Number" required placeholder="House name or number" />
+      <FormField section="authorisedPerson" field="street" label="Street" required placeholder="Street" />
+      <FormField section="authorisedPerson" field="townCity" label="Town / City" required placeholder="Town or city" />
 
-      <div className="mb-8">
-        <h2 className="form-section-title">
-          <span className="text-muted-foreground mr-2">03</span>Contact
-        </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <FormField section="authorisedPerson" field="phone" label="Mobile Phone" required type="tel" placeholder="+44 7700 900000" />
         <FormField section="authorisedPerson" field="email" label="Email" required type="email" placeholder="email@example.com" />
       </div>
