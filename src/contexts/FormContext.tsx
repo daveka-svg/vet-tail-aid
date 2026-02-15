@@ -62,7 +62,6 @@ export interface FormData {
   declaration: {
     agreed: boolean;
     signature: string;
-    printName: string;
     date: string;
   };
 }
@@ -75,7 +74,7 @@ const defaultFormData: FormData = {
   travel: { meansOfTravel: "", dateOfEntry: "", firstCountry: "", finalCountry: "", tapewormRequired: "", returningWithinFiveDays: "", returningWithin120Days: "" },
   rabies: { vaccinationDate: "", vaccineName: "", manufacturer: "", batchNumber: "", validFrom: "", validTo: "" },
   uploads: { rabiesCertificate: null, rabiesCertificateName: "" },
-  declaration: { agreed: false, signature: "", printName: "", date: "" },
+  declaration: { agreed: false, signature: "", date: "" },
 };
 
 interface FormContextType {
@@ -109,6 +108,7 @@ const ALL_STEPS: StepConfig[] = [
   { id: "rabies", title: "Rabies Vaccination", shortTitle: "Rabies" },
   { id: "uploads", title: "Upload Documents", shortTitle: "Uploads" },
   { id: "declaration", title: "Declaration", shortTitle: "Declaration" },
+  { id: "review", title: "Review & Submit", shortTitle: "Review" },
   { id: "confirmation", title: "Confirmation", shortTitle: "Done" },
 ];
 
