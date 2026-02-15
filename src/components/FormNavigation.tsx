@@ -29,23 +29,21 @@ const FormNavigation = ({ onNext, nextLabel, hideBack, hideNext }: Props) => {
   };
 
   return (
-    <div className="flex items-center justify-end pt-8 pb-4 gap-3">
-      {!hideBack && currentStep > 0 && (
-        <button
-          onClick={handleBack}
-          className="px-6 py-2 border border-gray-400 rounded text-sm text-black hover:bg-gray-100"
-        >
-          Back
-        </button>
-      )}
-      {!hideNext && (
-        <button
-          onClick={handleNext}
-          className="px-6 py-2 bg-black text-white rounded text-sm hover:bg-gray-800"
-        >
-          {nextLabel || "Continue →"}
-        </button>
-      )}
+    <div className="flex items-center justify-between pt-8 pb-4 md:sticky md:relative fixed bottom-0 left-0 right-0 bg-background md:bg-transparent px-6 md:px-0 py-4 md:py-0 border-t md:border-t-0 border-border z-20">
+      <div>
+        {!hideBack && currentStep > 0 && (
+          <button onClick={handleBack} className="btn-secondary">
+            ← Back
+          </button>
+        )}
+      </div>
+      <div>
+        {!hideNext && (
+          <button onClick={handleNext} className="btn-primary">
+            {nextLabel || "Continue →"}
+          </button>
+        )}
+      </div>
     </div>
   );
 };

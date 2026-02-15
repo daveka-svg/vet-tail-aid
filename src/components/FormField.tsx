@@ -21,7 +21,7 @@ const FormField = ({ section, field, label, helper, placeholder, type = "text", 
 
   if (children) {
     return (
-      <div className="mb-5">
+      <div className="mb-4">
         <label className="form-label">{label}{required && <span className="text-destructive ml-0.5">*</span>}</label>
         {children}
         {helper && <p className="form-helper">{helper}</p>}
@@ -31,7 +31,7 @@ const FormField = ({ section, field, label, helper, placeholder, type = "text", 
   }
 
   return (
-    <div className="mb-5">
+    <div className="mb-4">
       <label className="form-label">{label}{required && <span className="text-destructive ml-0.5">*</span>}</label>
       <input
         type={type}

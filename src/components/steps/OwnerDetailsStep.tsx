@@ -27,36 +27,20 @@ const OwnerDetailsStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-8">Owner Details</h1>
+      <h1 className="section-title">Owner Details</h1>
 
-      <div className="mb-8">
-        <h2 className="form-section-title">
-          <span className="text-muted-foreground mr-2">01</span>
-          Owner's Full Name
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
-          <FormField section="owner" field="firstName" label="First Name" required placeholder="First name" />
-          <FormField section="owner" field="lastName" label="Last Name" required placeholder="Last name" helper="Must match passport spelling exactly" />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <FormField section="owner" field="firstName" label="First Name" required placeholder="First name" />
+        <FormField section="owner" field="lastName" label="Last Name" required placeholder="Last name" helper="Must match passport spelling exactly" />
       </div>
 
-      <div className="mb-8">
-        <h2 className="form-section-title">
-          <span className="text-muted-foreground mr-2">02</span>
-          Owner's UK Address
-        </h2>
-        <FormField section="owner" field="postalCode" label="Postcode" required placeholder="e.g. SW1A 1AA" />
-        <FormField section="owner" field="houseNameNumber" label="House Name / Number" required placeholder="House name or number" />
-        <FormField section="owner" field="street" label="Street" required placeholder="Street name" />
-        <FormField section="owner" field="townCity" label="Town / City" required placeholder="Town or city" />
-        <FormField section="owner" field="country" label="Country" required placeholder="Country" />
-      </div>
+      <FormField section="owner" field="postalCode" label="Postcode" required placeholder="e.g. SW1A 1AA" />
+      <FormField section="owner" field="houseNameNumber" label="House Name / Number" required placeholder="House name or number" />
+      <FormField section="owner" field="street" label="Street" required placeholder="Street name" />
+      <FormField section="owner" field="townCity" label="Town / City" required placeholder="Town or city" />
+      <FormField section="owner" field="country" label="Country" required placeholder="Country" />
 
-      <div className="mb-8">
-        <h2 className="form-section-title">
-          <span className="text-muted-foreground mr-2">03</span>
-          Contact Information
-        </h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
         <FormField section="owner" field="phone" label="Mobile Phone Number" required type="tel" placeholder="+44 7700 900000" />
         <FormField section="owner" field="email" label="Email Address" required type="email" placeholder="you@example.com" />
       </div>

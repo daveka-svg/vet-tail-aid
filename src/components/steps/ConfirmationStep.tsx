@@ -6,7 +6,7 @@ const ConfirmationStep = () => {
   const { formData, resetForm, needsAuthorisedPerson } = useFormContext();
 
   const SummaryRow = ({ label, value }: { label: string; value: string }) => (
-    value ? <div className="flex justify-between py-1.5 border-b border-border/50 text-sm">
+    value ? <div className="flex justify-between py-1.5 border-b border-border/50 text-sm last:border-b-0">
       <span className="text-muted-foreground">{label}</span>
       <span className="font-medium text-right max-w-[60%]">{value}</span>
     </div> : null
@@ -18,16 +18,16 @@ const ConfirmationStep = () => {
         <img src={logo} alt="Every Tail Vets" className="h-10 object-contain" />
       </div>
 
-      <div className="text-center mb-10">
-        <div className="inline-flex p-4 rounded-full bg-secondary mb-4">
-          <CheckCircle2 className="w-12 h-12 text-primary" />
+      <div className="text-center mb-8">
+        <div className="inline-flex p-3 rounded-full bg-secondary mb-4">
+          <CheckCircle2 className="w-10 h-10 text-foreground" />
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold mb-2">Form Submitted Successfully</h1>
-        <p className="text-muted-foreground">Thank you. We will use this information to prepare your AHC before your appointment.</p>
+        <h1 className="section-title">Form Submitted Successfully</h1>
+        <p className="text-sm text-muted-foreground">Thank you. We will use this information to prepare your AHC before your appointment.</p>
       </div>
 
       <div className="summary-section">
-        <h3 className="form-section-title">Owner Details</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Owner Details</h3>
         <SummaryRow label="Name" value={`${formData.owner.firstName} ${formData.owner.lastName}`} />
         <SummaryRow label="Address" value={`${formData.owner.houseNameNumber} ${formData.owner.street}, ${formData.owner.townCity}, ${formData.owner.postalCode}`} />
         <SummaryRow label="Phone" value={formData.owner.phone} />
@@ -35,14 +35,14 @@ const ConfirmationStep = () => {
       </div>
 
       <div className="summary-section">
-        <h3 className="form-section-title">Transport</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Transport</h3>
         <SummaryRow label="Transported By" value={formData.transport.transportedBy} />
         {formData.transport.carrierName && <SummaryRow label="Carrier" value={formData.transport.carrierName} />}
       </div>
 
       {needsAuthorisedPerson && (
         <div className="summary-section">
-          <h3 className="form-section-title">Authorised Person</h3>
+          <h3 className="text-sm font-semibold text-foreground mb-3">Authorised Person</h3>
           <SummaryRow label="Name" value={`${formData.authorisedPerson.firstName} ${formData.authorisedPerson.lastName}`} />
           <SummaryRow label="Phone" value={formData.authorisedPerson.phone} />
           <SummaryRow label="Email" value={formData.authorisedPerson.email} />
@@ -50,7 +50,7 @@ const ConfirmationStep = () => {
       )}
 
       <div className="summary-section">
-        <h3 className="form-section-title">Pet Information</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Pet Information</h3>
         <SummaryRow label="Name" value={formData.pet.name} />
         <SummaryRow label="Species" value={formData.pet.species} />
         <SummaryRow label="Breed" value={formData.pet.breed} />
@@ -63,7 +63,7 @@ const ConfirmationStep = () => {
       </div>
 
       <div className="summary-section">
-        <h3 className="form-section-title">Travel</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Travel</h3>
         <SummaryRow label="Means" value={formData.travel.meansOfTravel === "car_ferry" ? "Car / Ferry" : "Air"} />
         <SummaryRow label="Entry Date" value={formData.travel.dateOfEntry} />
         <SummaryRow label="First Country" value={formData.travel.firstCountry} />
@@ -74,7 +74,7 @@ const ConfirmationStep = () => {
       </div>
 
       <div className="summary-section">
-        <h3 className="form-section-title">Rabies Vaccination</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Rabies Vaccination</h3>
         <SummaryRow label="Date" value={formData.rabies.vaccinationDate} />
         <SummaryRow label="Vaccine" value={formData.rabies.vaccineName} />
         <SummaryRow label="Manufacturer" value={formData.rabies.manufacturer} />
@@ -84,7 +84,7 @@ const ConfirmationStep = () => {
       </div>
 
       <div className="summary-section">
-        <h3 className="form-section-title">Declaration</h3>
+        <h3 className="text-sm font-semibold text-foreground mb-3">Declaration</h3>
         <SummaryRow label="Signature" value={formData.declaration.signature} />
         <SummaryRow label="Date" value={formData.declaration.date} />
       </div>

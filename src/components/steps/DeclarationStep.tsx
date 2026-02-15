@@ -19,28 +19,30 @@ const DeclarationStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-8">Declaration & Signature</h1>
+      <h1 className="section-title">Declaration & Signature</h1>
 
-      <div className="bg-card border border-border rounded-lg p-5 mb-6 text-sm leading-relaxed">
+      <div className="bg-secondary/50 border border-border rounded-md p-5 mb-6 text-sm leading-relaxed">
         {DECLARATION_TEXT}
       </div>
 
       <div className="mb-6">
-        <label className={`flex items-start gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
-          d.agreed ? "border-primary bg-secondary" : "border-border bg-card"
+        <label className={`flex items-start gap-3 p-4 rounded-md border cursor-pointer transition-all ${
+          d.agreed ? "border-foreground/30 bg-secondary" : "border-border bg-background"
         }`}>
           <input
             type="checkbox"
             checked={d.agreed}
             onChange={(e) => updateField("declaration", "agreed", e.target.checked)}
-            className="accent-primary w-4 h-4 mt-0.5"
+            className="accent-foreground w-4 h-4 mt-0.5"
           />
           <span className="text-sm">I agree to the above declaration <span className="text-destructive">*</span></span>
         </label>
       </div>
 
-      <FormField section="declaration" field="signature" label="Typed Signature" required placeholder="Type your full name as signature" />
-      <FormField section="declaration" field="date" label="Date" required type="date" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4">
+        <FormField section="declaration" field="signature" label="Typed Signature" required placeholder="Type your full name as signature" />
+        <FormField section="declaration" field="date" label="Date" required type="date" />
+      </div>
 
       <FormNavigation onNext={validate} nextLabel="Review & Submit" />
     </div>

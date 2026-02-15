@@ -23,16 +23,15 @@ const PetTransportStep = () => {
 
   return (
     <div className="animate-fade-in">
-      <h1 className="text-2xl md:text-3xl font-bold mb-8">Pet Transport</h1>
-      <p className="text-sm text-muted-foreground mb-6">Who will be transporting the pet?</p>
+      <h1 className="section-title">Pet Transport</h1>
 
-      <div className="space-y-3 mb-6">
+      <label className="form-label mb-3">Who will be transporting the pet? <span className="text-destructive">*</span></label>
+
+      <div className="space-y-2 mb-6">
         {options.map((opt) => (
           <label
             key={opt.value}
-            className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-all ${
-              tb === opt.value ? "border-primary bg-secondary" : "border-border bg-card hover:border-primary/50"
-            }`}
+            className={`radio-option ${tb === opt.value ? "radio-option-active" : "radio-option-inactive"}`}
           >
             <input
               type="radio"
@@ -40,9 +39,9 @@ const PetTransportStep = () => {
               value={opt.value}
               checked={tb === opt.value}
               onChange={() => updateField("transport", "transportedBy", opt.value)}
-              className="accent-primary w-4 h-4"
+              className="accent-foreground w-4 h-4"
             />
-            <span className="text-sm font-medium">{opt.label}</span>
+            <span className="font-medium">{opt.label}</span>
           </label>
         ))}
       </div>
@@ -53,8 +52,8 @@ const PetTransportStep = () => {
       )}
 
       {(tb === "authorised" || tb === "carrier") && (
-        <div className="reminder-box flex gap-3 items-start mb-4">
-          <AlertTriangle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+        <div className="reminder-box flex gap-3 items-start">
+          <AlertTriangle className="w-5 h-5 text-foreground flex-shrink-0 mt-0.5" />
           <p className="text-sm">
             A letter of authorisation must be brought to the appointment. 
             The person travelling with the pet must attend the appointment.
