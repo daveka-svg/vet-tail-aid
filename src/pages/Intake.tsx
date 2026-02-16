@@ -32,9 +32,11 @@ const STEP_COMPONENTS: Record<string, React.FC> = {
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
 
 const IntakeFormContent = ({ token }: { token: string }) => {
-  const { steps, currentStep, isSubmitted, formData } = useFormContext();
+  const { steps, currentStep, isSubmitted, formData, updateField } = useFormContext();
   const [submissionLoaded, setSubmissionLoaded] = useState(false);
   const [loadError, setLoadError] = useState("");
+  const [correctionMessage, setCorrectionMessage] = useState("");
+  const [submissionStatus, setSubmissionStatus] = useState("");
 
   // Load submission by token via edge function
   useEffect(() => {
@@ -50,6 +52,21 @@ const IntakeFormContent = ({ token }: { token: string }) => {
           setLoadError(data.error);
           return;
         }
+
+        // Load form data from submission
+        if (data.data_json) {
+          // Update form context with loaded data
+          Object.keys(data.data_json).forEach((section) => {
+            if (typeof data.data_json[section] === 'object') {
+              Object.keys(data.data_json[section]).forEach((field) => {
+                updateField(section as any, field, data.data_json[section][field]);
+              });
+            }
+          });
+        }
+
+        setSubmissionStatus(data.status);
+        setCorrectionMessage(data.correction_message || "");
         setSubmissionLoaded(true);
       } catch {
         setLoadError("Failed to load submission.");
@@ -68,7 +85,7 @@ const IntakeFormContent = ({ token }: { token: string }) => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ data_json: formData }),
         });
-      } catch {}
+      } catch { }
     }, 3000);
     return () => clearTimeout(timeout);
   }, [formData, submissionLoaded, token]);
@@ -80,7 +97,7 @@ const IntakeFormContent = ({ token }: { token: string }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ data_json: formData }),
-      }).catch(() => {});
+      }).catch(() => { });
     }
   }, [isSubmitted, submissionLoaded, token]);
 
@@ -116,6 +133,14 @@ const IntakeFormContent = ({ token }: { token: string }) => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {correctionMessage && submissionStatus === "NeedsCorrection" && (
+        <div className="w-full bg-destructive/10 border-b border-destructive/30 px-6 py-3">
+          <div className="max-w-2xl mx-auto">
+            <p className="text-sm font-medium text-destructive mb-1">Correction requested</p>
+            <p className="text-xs text-muted-foreground">{correctionMessage}</p>
+          </div>
+        </div>
+      )}
       <FormStepper />
       <main className="flex-1 flex justify-center">
         <div className="w-full max-w-2xl px-6 py-8">

@@ -27,6 +27,9 @@ export const useAuth = () => {
   return ctx;
 };
 
+// DEVELOPMENT MODE: Set to true to bypass authentication
+const DEV_MODE = true;
+
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -35,12 +38,34 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Development mode bypass
+    if (DEV_MODE) {
+      const mockUser = {
+        id: "dev-user-123",
+        email: "dev@test.com",
+      } as User;
+
+      const mockProfile: Profile = {
+        id: "dev-profile-123",
+        user_id: "dev-user-123",
+        clinic_id: "00000000-0000-0000-0000-000000000001", // Demo clinic
+        email: "dev@test.com",
+        name: "Dev User",
+      };
+
+      setUser(mockUser);
+      setProfile(mockProfile);
+      setIsAdmin(true);
+      setLoading(false);
+      return;
+    }
+
+    // Normal Supabase auth flow
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
 
       if (session?.user) {
-        // Fetch profile and roles using setTimeout to avoid deadlock
         setTimeout(async () => {
           const { data: profileData } = await supabase
             .from("profiles")
@@ -73,6 +98,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const signOut = async () => {
+    if (DEV_MODE) {
+      // In dev mode, just reload
+      window.location.href = "/";
+      return;
+    }
     await supabase.auth.signOut();
   };
 

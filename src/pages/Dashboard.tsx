@@ -5,6 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Plus, Search, Filter } from "lucide-react";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 type Submission = {
   id: string;
@@ -35,6 +36,7 @@ const statusColors: Record<string, string> = {
 const Dashboard = () => {
   const { profile } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
@@ -56,15 +58,42 @@ const Dashboard = () => {
   };
 
   const handleCreateSubmission = async () => {
-    if (!profile) return;
-    const { data, error } = await supabase
-      .from("submissions")
-      .insert({ clinic_id: profile.clinic_id, status: "Draft" as any, data_json: {} })
-      .select()
-      .single();
+    if (!profile) {
+      console.error("No profile found");
+      toast({ title: "Error", description: "User profile not loaded", variant: "destructive" });
+      return;
+    }
 
-    if (!error && data) {
-      navigate(`/dashboard/submission/${data.id}`);
+    console.log("Creating submission with clinic_id:", profile.clinic_id);
+
+    try {
+      const { data, error } = await supabase
+        .from("submissions")
+        .insert({ clinic_id: profile.clinic_id, status: "Draft" as any, data_json: {} })
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Submission creation error:", error);
+        toast({
+          title: "Failed to create submission",
+          description: error.message || "Database error. Did you disable RLS?",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      if (data) {
+        console.log("Submission created:", data.id);
+        navigate(`/dashboard/submission/${data.id}`);
+      }
+    } catch (err) {
+      console.error("Unexpected error:", err);
+      toast({
+        title: "Error",
+        description: String(err),
+        variant: "destructive"
+      });
     }
   };
 

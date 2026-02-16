@@ -187,9 +187,8 @@ const SubmissionDetail = () => {
           <button
             key={t.id}
             onClick={() => setActiveTab(t.id)}
-            className={`px-4 py-2 text-sm transition-colors border-b-2 -mb-px whitespace-nowrap ${
-              activeTab === t.id ? "border-foreground text-foreground font-medium" : "border-transparent text-muted-foreground hover:text-foreground"
-            }`}
+            className={`px-4 py-2 text-sm transition-colors border-b-2 -mb-px whitespace-nowrap ${activeTab === t.id ? "border-foreground text-foreground font-medium" : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
           >
             {t.label}
           </button>
@@ -512,8 +511,38 @@ const SubmissionDetail = () => {
                     return;
                   }
 
-                  // TODO: Call edge function for PDF generation
-                  toast({ title: "PDF generation will be implemented with edge functions" });
+                  // Call edge function for PDF generation
+                  try {
+                    toast({ title: "Generating PDF...", description: "This may take a moment" });
+
+                    const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/generate-pdfs`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+                      },
+                      body: JSON.stringify({
+                        submission_id: id,
+                        type: "final",
+                      }),
+                    });
+
+                    if (!response.ok) {
+                      const error = await response.json();
+                      throw new Error(error.error || "PDF generation failed");
+                    }
+
+                    const result = await response.json();
+
+                    toast({ title: "Success", description: "Final AHC PDF generated successfully" });
+                    fetchAll(); // Refresh data
+                  } catch (err) {
+                    toast({
+                      title: "Generation Failed",
+                      description: String(err),
+                      variant: "destructive"
+                    });
+                  }
                 }}
                 className="btn-primary text-xs"
               >
