@@ -14,6 +14,77 @@ export type Database = {
   }
   public: {
     Tables: {
+      ahc_template_mappings: {
+        Row: {
+          created_at: string
+          field_catalog_json: Json | null
+          id: string
+          mapping_json: Json
+          template_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          field_catalog_json?: Json | null
+          id?: string
+          mapping_json?: Json
+          template_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          field_catalog_json?: Json | null
+          id?: string
+          mapping_json?: Json
+          template_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ahc_template_mappings_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: true
+            referencedRelation: "ahc_templates"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ahc_templates: {
+        Row: {
+          created_at: string
+          first_country_entry: string
+          id: string
+          is_acroform: boolean
+          is_active: boolean
+          language_pair: string
+          storage_bucket: string
+          storage_path: string
+          template_code: string
+        }
+        Insert: {
+          created_at?: string
+          first_country_entry: string
+          id?: string
+          is_acroform?: boolean
+          is_active?: boolean
+          language_pair?: string
+          storage_bucket?: string
+          storage_path: string
+          template_code: string
+        }
+        Update: {
+          created_at?: string
+          first_country_entry?: string
+          id?: string
+          is_acroform?: boolean
+          is_active?: boolean
+          language_pair?: string
+          storage_bucket?: string
+          storage_path?: string
+          template_code?: string
+        }
+        Relationships: []
+      }
       attachments: {
         Row: {
           created_at: string
@@ -202,64 +273,91 @@ export type Database = {
       }
       submissions: {
         Row: {
+          certificate_number: string | null
           clinic_id: string
           correction_fields: Json | null
           correction_message: string | null
           created_at: string
+          created_by_user_id: string | null
           data_json: Json
           entry_date: string | null
+          final_ahc_pdf_path: string | null
           final_ahc_pdf_url: string | null
           final_destination: string | null
           first_country_of_entry: string | null
           id: string
           intake_pdf_url: string | null
+          intake_upload_path: string | null
+          issue_datetime: string | null
+          issue_place: string | null
+          issuing_practice_id: string | null
+          issuing_vet_id: string | null
           owner_email: string | null
           owner_name: string | null
           pets_count: number | null
           public_token: string
           selected_template_id: string | null
+          source: string
           status: Database["public"]["Enums"]["submission_status"]
           submitted_at: string | null
           updated_at: string
         }
         Insert: {
+          certificate_number?: string | null
           clinic_id: string
           correction_fields?: Json | null
           correction_message?: string | null
           created_at?: string
+          created_by_user_id?: string | null
           data_json?: Json
           entry_date?: string | null
+          final_ahc_pdf_path?: string | null
           final_ahc_pdf_url?: string | null
           final_destination?: string | null
           first_country_of_entry?: string | null
           id?: string
           intake_pdf_url?: string | null
+          intake_upload_path?: string | null
+          issue_datetime?: string | null
+          issue_place?: string | null
+          issuing_practice_id?: string | null
+          issuing_vet_id?: string | null
           owner_email?: string | null
           owner_name?: string | null
           pets_count?: number | null
           public_token?: string
           selected_template_id?: string | null
+          source?: string
           status?: Database["public"]["Enums"]["submission_status"]
           submitted_at?: string | null
           updated_at?: string
         }
         Update: {
+          certificate_number?: string | null
           clinic_id?: string
           correction_fields?: Json | null
           correction_message?: string | null
           created_at?: string
+          created_by_user_id?: string | null
           data_json?: Json
           entry_date?: string | null
+          final_ahc_pdf_path?: string | null
           final_ahc_pdf_url?: string | null
           final_destination?: string | null
           first_country_of_entry?: string | null
           id?: string
           intake_pdf_url?: string | null
+          intake_upload_path?: string | null
+          issue_datetime?: string | null
+          issue_place?: string | null
+          issuing_practice_id?: string | null
+          issuing_vet_id?: string | null
           owner_email?: string | null
           owner_name?: string | null
           pets_count?: number | null
           public_token?: string
           selected_template_id?: string | null
+          source?: string
           status?: Database["public"]["Enums"]["submission_status"]
           submitted_at?: string | null
           updated_at?: string
@@ -270,6 +368,20 @@ export type Database = {
             columns: ["clinic_id"]
             isOneToOne: false
             referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_issuing_practice_id_fkey"
+            columns: ["issuing_practice_id"]
+            isOneToOne: false
+            referencedRelation: "vet_practices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "submissions_issuing_vet_id_fkey"
+            columns: ["issuing_vet_id"]
+            isOneToOne: false
+            referencedRelation: "vets"
             referencedColumns: ["id"]
           },
           {
@@ -298,6 +410,121 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      vet_practices: {
+        Row: {
+          address_line_1: string
+          address_line_2: string | null
+          city: string
+          clinic_id: string
+          country: string
+          created_at: string
+          email: string | null
+          id: string
+          ov_practice_id: string | null
+          phone: string | null
+          postcode: string
+          practice_name: string
+          rcvs_premises_ref: string | null
+          trading_name: string | null
+          updated_at: string
+        }
+        Insert: {
+          address_line_1?: string
+          address_line_2?: string | null
+          city?: string
+          clinic_id: string
+          country?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          ov_practice_id?: string | null
+          phone?: string | null
+          postcode?: string
+          practice_name: string
+          rcvs_premises_ref?: string | null
+          trading_name?: string | null
+          updated_at?: string
+        }
+        Update: {
+          address_line_1?: string
+          address_line_2?: string | null
+          city?: string
+          clinic_id?: string
+          country?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          ov_practice_id?: string | null
+          phone?: string | null
+          postcode?: string
+          practice_name?: string
+          rcvs_premises_ref?: string | null
+          trading_name?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vet_practices_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vets: {
+        Row: {
+          clinic_id: string
+          created_at: string
+          email: string | null
+          full_name: string
+          id: string
+          phone: string | null
+          rcvs_number: string | null
+          role_title: string | null
+          signature_image_url: string | null
+          signature_text: string | null
+          stamp_image_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          clinic_id: string
+          created_at?: string
+          email?: string | null
+          full_name: string
+          id?: string
+          phone?: string | null
+          rcvs_number?: string | null
+          role_title?: string | null
+          signature_image_url?: string | null
+          signature_text?: string | null
+          stamp_image_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          clinic_id?: string
+          created_at?: string
+          email?: string | null
+          full_name?: string
+          id?: string
+          phone?: string | null
+          rcvs_number?: string | null
+          role_title?: string | null
+          signature_image_url?: string | null
+          signature_text?: string | null
+          stamp_image_url?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vets_clinic_id_fkey"
+            columns: ["clinic_id"]
+            isOneToOne: false
+            referencedRelation: "clinics"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -340,6 +567,7 @@ export type Database = {
         | "Approved"
         | "Downloaded"
         | "Cancelled"
+        | "Archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -490,6 +718,7 @@ export const Constants = {
         "Approved",
         "Downloaded",
         "Cancelled",
+        "Archived",
       ],
     },
   },
